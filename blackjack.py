@@ -2,6 +2,13 @@ from dataclasses import dataclass
 from typing import Literal, get_args, ClassVar
 import itertools
 import random
+from enum import Enum, auto
+
+
+class Command(Enum):
+    HIT = auto()
+    STAND = auto()
+
 
 Suit = Literal["Heart", "Diamond", "Club", "Spade"]
 
@@ -50,3 +57,9 @@ class BasePlayer:
 
 class Dealer (BasePlayer):
     start_cards:ClassVar[int] = 1
+
+    def controller(self):
+        if self.hand.score < 17:
+            return Command.HIT
+        else:
+            return Command.STAND
